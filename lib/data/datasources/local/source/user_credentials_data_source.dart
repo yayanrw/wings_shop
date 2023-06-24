@@ -27,7 +27,6 @@ class UserCredentialsDataSourceImpl implements UserCredentialsDataSource {
   Future<UserCredentialsDao> getUserCredentials() async {
     final prefs = await sharedPref;
     final userCredentials = prefs.getString(userCredentialsKey);
-
     if (userCredentials == null) {
       return UserCredentialsDao();
     } else {
@@ -41,6 +40,7 @@ class UserCredentialsDataSourceImpl implements UserCredentialsDataSource {
   Future<bool> setUserCredentials(UserCredentialsDao userCredentialsDao) async {
     final prefs = await sharedPref;
     final jsonString = jsonEncode(userCredentialsDao);
+
     prefs.setString(userCredentialsKey, jsonString);
     return true;
   }
