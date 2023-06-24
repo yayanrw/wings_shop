@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:wings_shop/data/datasources/remote/dtos/auth/login_data_dto.dart';
-import 'package:wings_shop/domain/entities/user.dart';
+import 'package:wings_shop/domain/entities/auth/user.dart';
 
 class LoginData extends Equatable {
   final User user;
