@@ -42,6 +42,7 @@ class AuthDataSourceImpl implements AuthDataSource {
           LoginResponse.fromJson(jsonDecode(response.body));
       return loginResponse;
     } else {
+      throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
@@ -56,6 +57,7 @@ class AuthDataSourceImpl implements AuthDataSource {
           LogoutResponse.fromJson(jsonDecode(response.body));
       return logoutResponse;
     } else {
+      throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
