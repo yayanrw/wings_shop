@@ -87,7 +87,10 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i19.AuthRepository>(),
           gh<_i16.UserCredentialsRepository>(),
         ));
-    gh.factory<_i26.LoginNotifier>(() => _i26.LoginNotifier(gh<_i24.LogIn>()));
+    gh.factory<_i26.LoginNotifier>(() => _i26.LoginNotifier(
+          gh<_i24.LogIn>(),
+          gh<_i16.UserCredentialsRepository>(),
+        ));
     return this;
   }
 }
