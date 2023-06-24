@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:wings_shop/core/utils/errors/exceptions.dart';
 import 'package:wings_shop/core/utils/errors/failure.dart';
+import 'package:wings_shop/core/utils/network_helper.dart';
 import 'package:wings_shop/data/datasources/remote/source/auth_data_source.dart';
 import 'package:wings_shop/domain/entities/auth/login_data.dart';
 import 'package:wings_shop/domain/repositories/auth_repository.dart';
@@ -19,30 +17,22 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    try {
+    return executeSafely<LoginData>(() async {
       final response = await authDataSource.fetchLogin(
         email: email,
         password: password,
       );
 
-      return Right(response.data!.toEntity());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Connection failed'));
-    }
+      return response.data!.toEntity();
+    });
   }
 
   @override
   Future<Either<Failure, bool>> logOut() async {
-    try {
+    return executeSafely<bool>(() async {
       final response = await authDataSource.fetchLogout();
 
-      return Right(response.status);
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Connection failed'));
-    }
+      return response.status;
+    });
   }
 }
