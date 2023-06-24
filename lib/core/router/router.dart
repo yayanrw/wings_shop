@@ -12,6 +12,7 @@ class AppRouter extends _$AppRouter {
   @override
   List<AutoRoute> get routes => [
     AutoRoute(
+      path: "/",
       page: LoginRoute.page,
       initial: true,
     ),
@@ -22,7 +23,7 @@ class AppRouter extends _$AppRouter {
       page: CartRoute.page,
     ),
     AutoRoute(
-      path: 'detail/:id',
+      path: '/detail/:id',
       page: DetailRoute.page,
     ),
   ];
