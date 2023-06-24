@@ -9,7 +9,7 @@ import 'package:wings_shop/core/utils/errors/failure.dart';
 Map<String, String> defaultHeader() {
   return {
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
   };
 }
 
@@ -17,7 +17,7 @@ Map<String, String> headerWithToken() {
   return {
     'Authorization': 'Bearer ',
     'Accept': 'application/json',
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/x-www-form-urlencoded',
   };
 }
 
