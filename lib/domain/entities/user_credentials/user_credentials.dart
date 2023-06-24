@@ -35,6 +35,12 @@ extension UserCredentialsDaoExt on UserCredentialsDao {
   }
 }
 
+extension UserCredentialsExt on UserCredentials {
+  UserCredentialsDao toDao() {
+    return UserCredentialsDao(id: id, email: email, name: name, token: token);
+  }
+}
+
 extension LoginDataExt on LoginData {
   UserCredentials toUserCredentials() {
     return UserCredentials(
