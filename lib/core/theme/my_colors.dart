@@ -14,4 +14,5 @@ class MyColors {
   static Color bgWhiteStartGradient = const Color(0x40FFFFFF);
   static Color bgWhiteEndGradient = const Color(0x90FFFFFF);
   static Color horizontalLine = const Color(0xff515151);
+  static Color blueAqua = const Color(0xFF00FFFF);
 }

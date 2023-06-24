@@ -5,6 +5,13 @@ TextTheme myTextTheme({Color? color, FontWeight? fontWeight}) {
   final Color newColor = color ?? MyColors.textWhite;
 
   return TextTheme(
+    headlineLarge: TextStyle(
+      fontSize: 40,
+      fontWeight: fontWeight ?? FontWeight.w700,
+      fontStyle: FontStyle.normal,
+      height: 1.5,
+      color: newColor,
+    ),
     titleLarge: TextStyle(
       fontSize: 29,
       fontWeight: fontWeight ?? FontWeight.w400,
