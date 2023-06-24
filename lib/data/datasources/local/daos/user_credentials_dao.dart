@@ -4,16 +4,16 @@ part 'user_credentials_dao.g.dart';
 
 @JsonSerializable()
 class UserCredentialsDao {
-  int id;
-  String name;
-  String email;
-  String token;
+  int? id;
+  String? name;
+  String? email;
+  String? token;
 
   UserCredentialsDao({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.token,
+    this.id,
+    this.name,
+    this.email,
+    this.token,
   });
 
   factory UserCredentialsDao.fromJson(Map<String, dynamic> json) =>
