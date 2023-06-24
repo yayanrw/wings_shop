@@ -1,5 +1,7 @@
+import 'package:injectable/injectable.dart';
 import 'package:wings_shop/domain/repositories/user_credentials_repository.dart';
 
+@lazySingleton
 class GetToken {
   final UserCredentialsRepository userCredentialsRepository;
 

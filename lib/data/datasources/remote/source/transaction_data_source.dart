@@ -21,7 +21,7 @@ class TransactionDataSourceImpl implements TransactionDataSource {
   Future<AddTransactionResponse> createTransaction() async {
     final response = await client.post(
       Uri.parse('$baseUrl/transactions'),
-      headers: headerWithToken(),
+      headers: NetworkHelper.headerWithToken,
     );
 
     if (response.statusCode == 200) {
@@ -29,6 +29,7 @@ class TransactionDataSourceImpl implements TransactionDataSource {
           AddTransactionResponse.fromJson(jsonDecode(response.body));
       return addTransactionResponse;
     } else {
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }

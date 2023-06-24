@@ -34,7 +34,7 @@ class CartDataSourceImpl implements CartDataSource {
   Future<AddCartResponse> addCart(CartParams cartParams) async {
     final response = await client.post(
       Uri.parse('$baseUrl/carts'),
-      headers: headerWithToken(),
+      headers: NetworkHelper.headerWithToken,
       body: jsonEncode(cartParams),
     );
 
@@ -43,6 +43,7 @@ class CartDataSourceImpl implements CartDataSource {
           AddCartResponse.fromJson(jsonDecode(response.body));
       return addCartResponse;
     } else {
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
@@ -51,7 +52,7 @@ class CartDataSourceImpl implements CartDataSource {
   Future<DeleteCartResponse> deleteCart(int id) async {
     final response = await client.delete(
       Uri.parse('$baseUrl/carts/$id'),
-      headers: headerWithToken(),
+      headers: NetworkHelper.headerWithToken,
     );
 
     if (response.statusCode == 200) {
@@ -59,6 +60,7 @@ class CartDataSourceImpl implements CartDataSource {
           DeleteCartResponse.fromJson(jsonDecode(response.body));
       return deleteCartResponse;
     } else {
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
@@ -67,7 +69,7 @@ class CartDataSourceImpl implements CartDataSource {
   Future<CartsResponse> fetchCarts() async {
     final response = await client.get(
       Uri.parse('$baseUrl/carts'),
-      headers: headerWithToken(),
+      headers: NetworkHelper.headerWithToken,
     );
 
     if (response.statusCode == 200) {
@@ -75,6 +77,7 @@ class CartDataSourceImpl implements CartDataSource {
           CartsResponse.fromJson(jsonDecode(response.body));
       return cartsResponse;
     } else {
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
@@ -86,7 +89,7 @@ class CartDataSourceImpl implements CartDataSource {
   }) async {
     final response = await client.delete(
       Uri.parse('$baseUrl/carts/$id'),
-      headers: headerWithToken(),
+      headers: NetworkHelper.headerWithToken,
     );
 
     if (response.statusCode == 200) {
@@ -94,6 +97,7 @@ class CartDataSourceImpl implements CartDataSource {
           UpdateCartResponse.fromJson(jsonDecode(response.body));
       return updateCartResponse;
     } else {
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }

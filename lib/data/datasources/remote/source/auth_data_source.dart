@@ -30,7 +30,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   }) async {
     final response = await client.post(
       Uri.parse('$baseUrl/login'),
-      headers: defaultHeader(),
+      headers: NetworkHelper.headerWithToken,
       body: {
         'email': email,
         'password': password,
@@ -42,7 +42,7 @@ class AuthDataSourceImpl implements AuthDataSource {
           LoginResponse.fromJson(jsonDecode(response.body));
       return loginResponse;
     } else {
-      throwExceptionIfClientError(response);
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
@@ -50,14 +50,14 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<LogoutResponse> fetchLogout() async {
     final response = await client.get(Uri.parse('$baseUrl/logout'),
-        headers: headerWithToken());
+        headers: NetworkHelper.headerWithToken);
 
     if (response.statusCode == 200) {
       final LogoutResponse logoutResponse =
           LogoutResponse.fromJson(jsonDecode(response.body));
       return logoutResponse;
     } else {
-      throwExceptionIfClientError(response);
+      NetworkHelper.throwExceptionIfClientError(response);
       throw ServerException();
     }
   }
