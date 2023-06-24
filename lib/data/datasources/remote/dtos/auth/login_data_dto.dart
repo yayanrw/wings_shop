@@ -1,5 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:wings_shop/data/datasources/remote/dtos/user_dto.dart';
+import 'package:wings_shop/data/datasources/remote/dtos/auth/user_dto.dart';
 
 part 'login_data_dto.g.dart';
 
