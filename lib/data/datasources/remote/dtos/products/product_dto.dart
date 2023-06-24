@@ -8,6 +8,7 @@ class ProductDto {
   int? id;
   String? code;
   String? name;
+  @JsonKey(name: "img_url")
   String? imgUrl;
   int? price;
   String? currency;

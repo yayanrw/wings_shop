@@ -4,6 +4,7 @@ part 'cart_params.g.dart';
 
 @JsonSerializable()
 class CartParams {
+  @JsonKey(name: "product_code")
   String productCode;
   String price;
   String quantity;

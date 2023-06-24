@@ -8,9 +8,12 @@ class UserDto {
   int? id;
   String? name;
   String? email;
+  @JsonKey(name: "email_verified_at")
   DateTime? emailVerifiedAt;
   String? role;
+  @JsonKey(name: "created_at")
   DateTime? createdAt;
+  @JsonKey(name: "updated_at")
   DateTime? updatedAt;
 
   UserDto({
