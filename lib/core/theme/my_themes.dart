@@ -8,11 +8,16 @@ import 'package:wings_shop/core/theme/my_text_theme.dart';
 ThemeData myThemes() {
   return ThemeData(
     scaffoldBackgroundColor: MyColors.bgScaffoldBackground,
-    primaryColor: MyColors.orangeStartGradient,
+    primaryColor: MyColors.primary,
+    colorScheme: ColorScheme.fromSeed(
+      seedColor: MyColors.primary,
+      primary: MyColors.primary,
+      secondary: MyColors.primary,
+    ),
     fontFamily: fontFamily,
-    textTheme: myTextTheme(),
     inputDecorationTheme: myInputDecorationTheme(),
-    textSelectionTheme: myTextSelectionThemeData(),
+    textTheme: myTextTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
+    textSelectionTheme: myTextSelectionThemeData(),
   );
 }

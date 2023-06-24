@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:wings_shop/core/theme/my_colors.dart';
 
 TextTheme myTextTheme({Color? color, FontWeight? fontWeight}) {
-  final Color newColor = color ?? MyColors.textWhite;
+  final Color newColor = color ?? MyColors.white;
 
   return TextTheme(
     headlineLarge: TextStyle(
