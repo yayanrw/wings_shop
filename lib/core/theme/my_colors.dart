@@ -8,6 +8,7 @@ class MyColors {
   static Color info = const Color(0xff0000ff);
   static Color light = const Color(0xffffffff);
   static Color primary = HexColor('#FDBD10');
+  static Color primaryDisabled = const Color(0xFFC69E07);
   static Color primaryDark = HexColor('#FC9D0A');
   static Color primaryLight = HexColor('#fed250');
   static Color primarySmooth = const Color(0xFFFFECDF);
