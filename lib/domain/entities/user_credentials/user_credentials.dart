@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:wings_shop/data/datasources/local/daos/user_credentials_dao.dart';
+import 'package:wings_shop/domain/entities/auth/login_data.dart';
 
 class UserCredentials extends Equatable {
   final int id;
@@ -30,6 +31,17 @@ extension UserCredentialsDaoExt on UserCredentialsDao {
       name: name ?? "N/A",
       email: email ?? "N/A",
       token: token ?? "N/A",
+    );
+  }
+}
+
+extension LoginDataExt on LoginData {
+  UserCredentials toUserCredentials() {
+    return UserCredentials(
+      id: user.id,
+      name: user.name,
+      email: user.email,
+      token: token,
     );
   }
 }
