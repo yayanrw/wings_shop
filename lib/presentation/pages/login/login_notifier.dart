@@ -29,6 +29,7 @@ class LoginNotifier extends ChangeNotifier {
       final resultFold = result.fold(
         (failure) {
           _message = failure.message;
+          ToastHelper.error(failure.message);
           notifyListeners();
           return false;
         },
