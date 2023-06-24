@@ -47,7 +47,7 @@ class LoginNotifier extends ChangeNotifier {
     }
   }
 
-  Future<void> fetchLogin() async {
+  Future<bool> fetchLogin() async {
     try {
       _requestState = RequestState.loading;
       notifyListeners();
@@ -57,23 +57,28 @@ class LoginNotifier extends ChangeNotifier {
         password: passwordController.text,
       );
 
-      result.fold(
+      final resultFold = result.fold(
         (failure) {
           _requestState = RequestState.error;
           _message = failure.message;
           ToastHelper.error(failure.message);
           notifyListeners();
+          return false;
         },
         (_) {
           _requestState = RequestState.loaded;
           notifyListeners();
+          return true;
         },
       );
+
+      return resultFold;
     } catch (e) {
       _requestState = RequestState.error;
       ToastHelper.error('An error occurred: ${e.toString()}');
       _message = 'An error occurred: ${e.toString()}';
       notifyListeners();
+      return false;
     }
   }
 

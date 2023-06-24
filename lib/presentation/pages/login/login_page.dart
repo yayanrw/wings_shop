@@ -26,8 +26,7 @@ class _LoginPageState extends State<LoginPage> {
           await Provider.of<LoginNotifier>(context, listen: false).isLoggedIn();
 
       if (loggedIn) {
-        if (!mounted) return;
-        context.router.replace(const HomeRoute());
+        toHomePage();
       }
     });
   }
@@ -122,11 +121,10 @@ class _LoginPageState extends State<LoginPage> {
       child: ElevatedButton(
         onPressed: buttonEnabled
             ? () async {
-                await data.fetchLogin();
-                // if (res) {
-                //   if (!mounted) return;
-                //   context.router.push(const HomeRoute());
-                // }
+                final res = await data.fetchLogin();
+                if (res) {
+                  toHomePage();
+                }
               }
             : null,
         style: ElevatedButton.styleFrom(
@@ -139,5 +137,10 @@ class _LoginPageState extends State<LoginPage> {
         child: Text(buttonText),
       ),
     );
+  }
+
+  void toHomePage() async {
+    if (!mounted) return;
+    context.router.replace(const HomeRoute());
   }
 }
