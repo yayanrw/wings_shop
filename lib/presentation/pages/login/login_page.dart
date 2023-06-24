@@ -22,8 +22,9 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
     Future.microtask(() async {
-      final loginNotifier = Provider.of<LoginNotifier>(context, listen: false);
-      final loggedIn = await loginNotifier.isLoggedIn();
+      final loggedIn =
+          await Provider.of<LoginNotifier>(context, listen: false).isLoggedIn();
+
       if (loggedIn) {
         if (!mounted) return;
         context.router.replace(const HomeRoute());

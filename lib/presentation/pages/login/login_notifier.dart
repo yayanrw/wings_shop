@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wings_shop/core/utils/request_state.dart';
+import 'package:wings_shop/core/utils/toast_helper.dart';
 import 'package:wings_shop/domain/entities/user_credentials/user_credentials.dart';
 import 'package:wings_shop/domain/repositories/user_credentials_repository.dart';
 import 'package:wings_shop/domain/usescases/auth/login.dart';
@@ -40,6 +41,7 @@ class LoginNotifier extends ChangeNotifier {
       return resultFold;
     } catch (e) {
       _message = 'An error occurred: ${e.toString()}';
+      ToastHelper.error('An error occurred: ${e.toString()}');
       notifyListeners();
       return false;
     }
@@ -59,6 +61,7 @@ class LoginNotifier extends ChangeNotifier {
         (failure) {
           _requestState = RequestState.error;
           _message = failure.message;
+          ToastHelper.error(failure.message);
           notifyListeners();
         },
         (_) {
@@ -68,6 +71,7 @@ class LoginNotifier extends ChangeNotifier {
       );
     } catch (e) {
       _requestState = RequestState.error;
+      ToastHelper.error('An error occurred: ${e.toString()}');
       _message = 'An error occurred: ${e.toString()}';
       notifyListeners();
     }
