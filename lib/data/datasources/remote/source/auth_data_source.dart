@@ -31,10 +31,10 @@ class AuthDataSourceImpl implements AuthDataSource {
     final response = await client.post(
       Uri.parse('$baseUrl/login'),
       headers: defaultHeader(),
-      body: jsonEncode({
-        email: email,
-        password: password,
-      }),
+      body: {
+        'email': email,
+        'password': password,
+      },
     );
 
     if (response.statusCode == 200) {
