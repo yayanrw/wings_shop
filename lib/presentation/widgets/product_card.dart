@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wings_shop/core/theme/my_colors.dart';
 import 'package:wings_shop/core/theme/my_text_theme.dart';
+import 'package:wings_shop/core/utils/extension_helper.dart';
 import 'package:wings_shop/core/utils/size_config.dart';
 
 class ProductCard extends StatelessWidget {
@@ -27,6 +28,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double priceAfterDiscount = price - (price * discount / 100);
+
     return InkWell(
       onTap: press,
       child: SizedBox(
@@ -87,13 +90,54 @@ class ProductCard extends StatelessWidget {
                       name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style:
-                          myTextTheme(fontWeight: FontWeight.w900).titleMedium,
+                      style: myTextTheme(
+                              fontWeight: FontWeight.w900,
+                              color: MyColors.textBlack)
+                          .titleMedium,
                     ),
-                    Text(
-                      '$currency $price',
-                      style:
-                          myTextTheme(color: MyColors.secondaryLight2).titleSmall,
+                    const SizedBox(height: 4),
+                    if (discount != 0)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Text(
+                            '$currency ${price.format()}',
+                            style: const TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 12),
+                          ),
+                          const SizedBox(
+                            width: 8,
+                          ),
+                          Text(
+                            '$discount%',
+                            style: myTextTheme(
+                                    color: MyColors.secondary,
+                                    fontWeight: FontWeight.w700)
+                                .titleSmall,
+                          ),
+                        ],
+                      ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          '$currency ${priceAfterDiscount.format()}',
+                          style: myTextTheme(
+                              color: MyColors.secondary,
+                              fontWeight: FontWeight.w700)
+                              .titleSmall,
+                        ),
+                        Text(
+                          '/ $unit',
+                          style: myTextTheme(
+                              color: MyColors.secondary,
+                              fontWeight: FontWeight.w400)
+                              .labelSmall,
+                        ),
+                      ],
                     ),
                     const SizedBox(height: 8),
                   ],
