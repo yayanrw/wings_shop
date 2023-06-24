@@ -3,6 +3,7 @@ import 'package:wings_shop/presentation/pages/cart/cart_page.dart';
 import 'package:wings_shop/presentation/pages/detail/detail_page.dart';
 import 'package:wings_shop/presentation/pages/home/home_page.dart';
 import 'package:wings_shop/presentation/pages/login/login_page.dart';
+import 'package:wings_shop/presentation/pages/profile/profile_page.dart';
 
 part 'router.gr.dart';
 
