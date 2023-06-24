@@ -1,9 +1,7 @@
-import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
-import 'package:wings_shop/core/utils/errors/exceptions.dart';
 import 'package:wings_shop/core/utils/errors/failure.dart';
+import 'package:wings_shop/core/utils/network_helper.dart';
 import 'package:wings_shop/data/datasources/remote/source/product_data_source.dart';
 import 'package:wings_shop/domain/entities/products/product.dart';
 import 'package:wings_shop/domain/repositories/product_repository.dart';
@@ -16,15 +14,10 @@ class ProductRepositoryImpl implements ProductRepository {
 
   @override
   Future<Either<Failure, List<Product>>> getProducts() async {
-    try {
+    return NetworkHelper.executeSafely<List<Product>>(() async {
       final response = await productDataSource.fetchProducts();
 
-      return Right(
-          response.data!.map((productDto) => productDto.toEntity()).toList());
-    } on ServerException {
-      return const Left(ServerFailure(''));
-    } on SocketException {
-      return const Left(ConnectionFailure('Connection failed'));
-    }
+      return response.data!.map((productDto) => productDto.toEntity()).toList();
+    });
   }
 }

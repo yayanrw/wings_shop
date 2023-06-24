@@ -17,7 +17,7 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    return executeSafely<LoginData>(() async {
+    return NetworkHelper.executeSafely<LoginData>(() async {
       final response = await authDataSource.fetchLogin(
         email: email,
         password: password,
@@ -29,7 +29,7 @@ class AuthRepositoryImpl implements AuthRepository {
 
   @override
   Future<Either<Failure, bool>> logOut() async {
-    return executeSafely<bool>(() async {
+    return NetworkHelper.executeSafely<bool>(() async {
       final response = await authDataSource.fetchLogout();
 
       return response.status;
