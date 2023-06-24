@@ -35,7 +35,10 @@ class UserCredentialsRepositoryImpl implements UserCredentialsRepository {
     UserCredentials userCredentials,
   ) async {
     try {
-      return Right(await userCredentialsDataSource.clearUserCredentials());
+      return Right(
+        await userCredentialsDataSource
+            .setUserCredentials(userCredentials.toDao()),
+      );
     } catch (e) {
       return Left(ApplicationFailure("Failed: $e"));
     }
