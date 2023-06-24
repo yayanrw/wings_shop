@@ -9,7 +9,10 @@ import 'package:wings_shop/data/datasources/remote/responses/auth/login_response
 import 'package:wings_shop/data/datasources/remote/responses/auth/logout_response.dart';
 
 abstract class AuthDataSource {
-  Future<LoginResponse> fetchLogin();
+  Future<LoginResponse> fetchLogin({
+    required String email,
+    required String password,
+  });
 
   Future<LogoutResponse> fetchLogout();
 }
@@ -21,9 +24,18 @@ class AuthDataSourceImpl implements AuthDataSource {
   AuthDataSourceImpl(this.client);
 
   @override
-  Future<LoginResponse> fetchLogin() async {
-    final response =
-        await client.get(Uri.parse('$baseUrl/login'), headers: defaultHeader());
+  Future<LoginResponse> fetchLogin({
+    required String email,
+    required String password,
+  }) async {
+    final response = await client.post(
+      Uri.parse('$baseUrl/login'),
+      headers: defaultHeader(),
+      body: jsonEncode({
+        email: email,
+        password: password,
+      }),
+    );
 
     if (response.statusCode == 200) {
       final LoginResponse loginResponse =
