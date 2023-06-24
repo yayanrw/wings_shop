@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 import 'package:wings_shop/core/config/constants.dart';
 import 'package:wings_shop/core/utils/errors/exceptions.dart';
 import 'package:wings_shop/core/utils/network_helper.dart';
-import 'package:wings_shop/data/datasources/remote/dtos/carts/cart_dto.dart';
+import 'package:wings_shop/data/datasources/remote/params/cart_params.dart';
 import 'package:wings_shop/data/datasources/remote/responses/carts/add_cart_response.dart';
 import 'package:wings_shop/data/datasources/remote/responses/carts/carts_response.dart';
 import 'package:wings_shop/data/datasources/remote/responses/carts/delete_cart_response.dart';
@@ -14,7 +14,7 @@ import 'package:wings_shop/data/datasources/remote/responses/carts/update_cart_r
 abstract class CartDataSource {
   Future<CartsResponse> fetchCarts();
 
-  Future<AddCartResponse> addCart(CartDto cartDto);
+  Future<AddCartResponse> addCart(CartParams cartParams);
 
   Future<UpdateCartResponse> updateCart({
     required int id,
@@ -31,11 +31,11 @@ class CartDataSourceImpl implements CartDataSource {
   CartDataSourceImpl(this.client);
 
   @override
-  Future<AddCartResponse> addCart(CartDto cartDto) async {
+  Future<AddCartResponse> addCart(CartParams cartParams) async {
     final response = await client.post(
       Uri.parse('$baseUrl/carts'),
       headers: headerWithToken(),
-      body: jsonEncode(cartDto),
+      body: jsonEncode(cartParams),
     );
 
     if (response.statusCode == 200) {
@@ -85,7 +85,7 @@ class CartDataSourceImpl implements CartDataSource {
     required int quantity,
   }) async {
     final response = await client.delete(
-      Uri.parse('$baseUrl/cart/$id'),
+      Uri.parse('$baseUrl/carts/$id'),
       headers: headerWithToken(),
     );
 
