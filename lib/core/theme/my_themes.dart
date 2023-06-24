@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:wings_shop/core/config/constants.dart';
+import 'package:wings_shop/core/theme/my_button.dart';
 import 'package:wings_shop/core/theme/my_colors.dart';
 import 'package:wings_shop/core/theme/my_input_decoration_theme.dart';
 import 'package:wings_shop/core/theme/my_text_selection_theme_data.dart';
@@ -19,5 +20,7 @@ ThemeData myThemes() {
     textTheme: myTextTheme(),
     visualDensity: VisualDensity.adaptivePlatformDensity,
     textSelectionTheme: myTextSelectionThemeData(),
+    elevatedButtonTheme: myElevatedButtonThemeData(),
+    textButtonTheme: myTextButtonThemeData(),
   );
 }
