@@ -7,6 +7,7 @@ import 'package:wings_shop/core/utils/errors/exceptions.dart';
 import 'package:wings_shop/core/utils/network_helper.dart';
 import 'package:wings_shop/data/datasources/remote/responses/auth/login_response.dart';
 import 'package:wings_shop/data/datasources/remote/responses/auth/logout_response.dart';
+import 'package:wings_shop/domain/usescases/user_credentials/get_token.dart';
 
 abstract class AuthDataSource {
   Future<LoginResponse> fetchLogin({
@@ -20,8 +21,9 @@ abstract class AuthDataSource {
 @LazySingleton(as: AuthDataSource)
 class AuthDataSourceImpl implements AuthDataSource {
   final http.Client client;
+  final GetToken getToken;
 
-  AuthDataSourceImpl(this.client);
+  AuthDataSourceImpl(this.client, this.getToken);
 
   @override
   Future<LoginResponse> fetchLogin({
@@ -30,7 +32,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   }) async {
     final response = await client.post(
       Uri.parse('$baseUrl/login'),
-      headers: NetworkHelper.headerWithToken,
+      headers: NetworkHelper.headerWithToken(await getToken.exec()),
       body: {
         'email': email,
         'password': password,
@@ -50,7 +52,7 @@ class AuthDataSourceImpl implements AuthDataSource {
   @override
   Future<LogoutResponse> fetchLogout() async {
     final response = await client.get(Uri.parse('$baseUrl/logout'),
-        headers: NetworkHelper.headerWithToken);
+        headers: NetworkHelper.headerWithToken(await getToken.exec()));
 
     if (response.statusCode == 200) {
       final LogoutResponse logoutResponse =

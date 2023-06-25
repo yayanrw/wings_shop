@@ -23,7 +23,7 @@ class ProductDataSourceImpl implements ProductDataSource {
   Future<ProductsResponse> fetchProducts() async {
     final response = await client.get(
       Uri.parse('$baseUrl/products'),
-      headers: NetworkHelper.headerWithTokenz(await getToken.exec()),
+      headers: NetworkHelper.headerWithToken(await getToken.exec()),
     );
 
     if (response.statusCode == 200) {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:wings_shop/core/config/constants.dart';
 import 'package:wings_shop/core/di/injection.dart' as di;
@@ -14,7 +15,17 @@ import 'presentation/pages/detail/detail_notifier.dart';
 Future<void> main() async {
   di.configureDependencies();
 
+  void configLoading() {
+    EasyLoading.instance
+      ..displayDuration = const Duration(milliseconds: 2000)
+      ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+      ..loadingStyle = EasyLoadingStyle.dark
+      ..maskType = EasyLoadingMaskType.none
+      ..dismissOnTap = false;
+  }
+
   runApp(MyApp());
+  configLoading();
 }
 
 class MyApp extends StatelessWidget {
@@ -38,6 +49,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: myThemes(),
         routerConfig: _appRouter.config(),
+        builder: EasyLoading.init(),
       ),
     );
   }

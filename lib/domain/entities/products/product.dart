@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:wings_shop/data/datasources/remote/dtos/products/product_dto.dart';
+import 'package:wings_shop/data/datasources/remote/params/cart_params.dart';
 
 class Product extends Equatable {
   final int id;
@@ -50,6 +51,18 @@ extension ProductDtoExt on ProductDto {
       discount: discount ?? 0,
       dimension: dimension ?? "N/A",
       unit: unit ?? "N/A",
+    );
+  }
+}
+
+extension ProductExt on Product {
+  CartParams toParams() {
+    return CartParams(
+      productCode: code,
+      price: price.toString(),
+      quantity: 1.toString(),
+      unit: unit,
+      currency: currency,
     );
   }
 }

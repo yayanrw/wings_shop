@@ -11,17 +11,9 @@ class NetworkHelper {
     'Accept': 'application/json',
     'Content-Type': 'application/x-www-form-urlencoded',
   };
-  static Map<String, String> headerWithToken = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/x-www-form-urlencoded',
-  };
 
-  static Map<String, String> headerWithTokenz(String? token) {
+  static Map<String, String> headerWithToken(String? token) {
     return {...defaultHeader, 'Authorization': 'Bearer $token'};
-  }
-
-  static void setHeaderWithToken(String token) {
-    headerWithToken = {...defaultHeader, 'Authorization': 'Bearer $token'};
   }
 
   static void throwExceptionIfClientError(http.Response response) {

@@ -1,12 +1,14 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
+import 'package:provider/provider.dart';
 import 'package:wings_shop/core/config/constants.dart';
 import 'package:wings_shop/core/theme/my_colors.dart';
 import 'package:wings_shop/core/theme/my_text_theme.dart';
 import 'package:wings_shop/core/utils/extension_helper.dart';
 import 'package:wings_shop/core/utils/size_config.dart';
 import 'package:wings_shop/domain/entities/products/product.dart';
+import 'package:wings_shop/presentation/pages/detail/detail_notifier.dart';
 import 'package:wings_shop/presentation/widgets/header_product.dart';
 
 @RoutePage()
@@ -73,7 +75,12 @@ class DetailPage extends StatelessWidget {
                       ),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Future.microtask(
+                              () async => await Provider.of<DetailNotifier>(context, listen: false)
+                              .fetchAddToCart(product),
+                        );
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(16),
                         width: 64,
