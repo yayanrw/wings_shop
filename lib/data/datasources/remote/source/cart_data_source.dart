@@ -79,7 +79,6 @@ class CartDataSourceImpl implements CartDataSource {
       Uri.parse('$baseUrl/carts'),
       headers: NetworkHelper.headerWithToken(await getToken.exec()),
     );
-    print(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
       final CartsResponse cartsResponse =
@@ -96,10 +95,11 @@ class CartDataSourceImpl implements CartDataSource {
     required int id,
     required int quantity,
   }) async {
-    final response = await client.delete(
-      Uri.parse('$baseUrl/carts/$id'),
-      headers: NetworkHelper.headerWithToken(await getToken.exec()),
-    );
+    final response = await client.put(Uri.parse('$baseUrl/carts/$id'),
+        headers: NetworkHelper.headerWithToken(await getToken.exec()),
+        body: {
+          'quantity': quantity.toString(),
+        },);
 
     if (response.statusCode == 200) {
       final UpdateCartResponse updateCartResponse =

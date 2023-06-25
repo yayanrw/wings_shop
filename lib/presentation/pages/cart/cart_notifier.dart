@@ -51,4 +51,32 @@ class CartNotifier extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<void> updateQuantity(Cart cart, int quantity) async {
+    try {
+      _carts = _carts.map((c) {
+        if (c.id == cart.id) {
+          return c.copyWith(quantity: quantity);
+        }
+        return c;
+      }).toList();
+      notifyListeners();
+
+      final Either<Failure, bool> result =
+          await cartRepository.updateCart(id: cart.id, quantity: quantity);
+
+      result.fold(
+        (Failure failure) {
+          ToastHelper.error(failure.message);
+          notifyListeners();
+        },
+        (bool success) {
+          notifyListeners();
+        },
+      );
+    } catch (e) {
+      ToastHelper.error('An error occurred: ${e.toString()}');
+      notifyListeners();
+    }
+  }
 }
