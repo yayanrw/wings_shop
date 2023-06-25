@@ -31,7 +31,7 @@ class HomeNotifier extends ChangeNotifier {
       notifyListeners();
 
       final Either<Failure, List<Product>> result =
-          await productRepository.getProducts();
+          await productRepository.getProducts('');
 
       result.fold(
         (Failure failure) {

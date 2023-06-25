@@ -9,7 +9,7 @@ import 'package:wings_shop/data/datasources/remote/responses/products/products_r
 import 'package:wings_shop/domain/usescases/user_credentials/get_token.dart';
 
 abstract class ProductDataSource {
-  Future<ProductsResponse> fetchProducts();
+  Future<ProductsResponse> fetchProducts(String query);
 }
 
 @LazySingleton(as: ProductDataSource)
@@ -20,9 +20,9 @@ class ProductDataSourceImpl implements ProductDataSource {
   ProductDataSourceImpl(this.client, this.getToken);
 
   @override
-  Future<ProductsResponse> fetchProducts() async {
+  Future<ProductsResponse> fetchProducts(String query) async {
     final response = await client.get(
-      Uri.parse('$baseUrl/products'),
+      Uri.parse('$baseUrl/products?search=$query'),
       headers: NetworkHelper.headerWithToken(await getToken.exec()),
     );
 

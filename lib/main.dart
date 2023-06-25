@@ -9,6 +9,7 @@ import 'package:wings_shop/presentation/pages/cart/cart_notifier.dart';
 import 'package:wings_shop/presentation/pages/home/home_notifier.dart';
 import 'package:wings_shop/presentation/pages/login/login_notifier.dart';
 import 'package:wings_shop/presentation/pages/profile/profile_notifier.dart';
+import 'package:wings_shop/presentation/pages/search/search_notifier.dart';
 
 import 'presentation/pages/detail/detail_notifier.dart';
 
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => di.getIt<DetailNotifier>()),
         ChangeNotifierProvider(create: (_) => di.getIt<CartNotifier>()),
         ChangeNotifierProvider(create: (_) => di.getIt<ProfileNotifier>()),
+        ChangeNotifierProvider(create: (_) => di.getIt<SearchNotifier>()),
       ],
       child: MaterialApp.router(
         useInheritedMediaQuery: true,

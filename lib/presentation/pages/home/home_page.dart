@@ -82,7 +82,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildSearchField(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.router.push(const CartRoute());
+        context.router.push(const SearchRoute());
       },
       child: Container(
         width: SizeConfig.screenWidth! * 0.6,

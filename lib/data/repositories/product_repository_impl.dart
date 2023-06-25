@@ -13,9 +13,9 @@ class ProductRepositoryImpl implements ProductRepository {
   ProductRepositoryImpl(this.productDataSource);
 
   @override
-  Future<Either<Failure, List<Product>>> getProducts() async {
+  Future<Either<Failure, List<Product>>> getProducts(String query) async {
     return NetworkHelper.executeSafely<List<Product>>(() async {
-      final response = await productDataSource.fetchProducts();
+      final response = await productDataSource.fetchProducts(query);
 
       return response.data!.map((productDto) => productDto.toEntity()).toList();
     });

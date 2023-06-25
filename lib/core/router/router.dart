@@ -6,6 +6,7 @@ import 'package:wings_shop/presentation/pages/detail/detail_page.dart';
 import 'package:wings_shop/presentation/pages/home/home_page.dart';
 import 'package:wings_shop/presentation/pages/login/login_page.dart';
 import 'package:wings_shop/presentation/pages/profile/profile_page.dart';
+import 'package:wings_shop/presentation/pages/search/search_page.dart';
 
 part 'router.gr.dart';
 
@@ -26,6 +27,9 @@ class AppRouter extends _$AppRouter {
     ),
     AutoRoute(
       page: ProfileRoute.page,
+    ),
+    AutoRoute(
+      page: SearchRoute.page,
     ),
     AutoRoute(
       path: '/detail/:product',
