@@ -26,6 +26,30 @@ class Cart extends Equatable {
     required this.product,
   });
 
+  Cart copyWith({
+    int? userId,
+    String? productCode,
+    int? price,
+    int? quantity,
+    String? unit,
+    int? subTotal,
+    String? currency,
+    int? id,
+    Product? product,
+  }) {
+    return Cart(
+      userId: userId ?? this.userId,
+      productCode: productCode ?? this.productCode,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      unit: unit ?? this.unit,
+      subTotal: subTotal ?? this.subTotal,
+      currency: currency ?? this.currency,
+      id: id ?? this.id,
+      product: product ?? this.product,
+    );
+  }
+
   @override
   List<Object?> get props => [
         userId,
