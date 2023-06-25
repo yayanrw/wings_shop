@@ -51,7 +51,7 @@ class AuthDataSourceImpl implements AuthDataSource {
 
   @override
   Future<LogoutResponse> fetchLogout() async {
-    final response = await client.get(Uri.parse('$baseUrl/logout'),
+    final response = await client.post(Uri.parse('$baseUrl/logout'),
         headers: NetworkHelper.headerWithToken(await getToken.exec()));
 
     if (response.statusCode == 200) {

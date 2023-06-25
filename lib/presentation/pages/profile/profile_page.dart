@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:line_icons/line_icons.dart';
 import 'package:provider/provider.dart';
+import 'package:wings_shop/core/config/constants.dart';
+import 'package:wings_shop/core/router/router.dart';
 import 'package:wings_shop/core/theme/my_colors.dart';
 import 'package:wings_shop/core/theme/my_text_theme.dart';
 import 'package:wings_shop/presentation/pages/profile/profile_notifier.dart';
@@ -34,7 +36,10 @@ class _ProfilePageState extends State<ProfilePage> {
             context.router.pop();
           },
         ),
-        title: Text("Profile", style: myTextTheme(color: MyColors.white).titleMedium,),
+        title: Text(
+          "Profile",
+          style: myTextTheme(color: MyColors.white).titleMedium,
+        ),
       ),
       body: SafeArea(
         child: SizedBox(
@@ -62,6 +67,33 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
       ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(defaultPadding),
+        child: SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () async {
+              final result =
+                  await Provider.of<ProfileNotifier>(context, listen: false)
+                      .fetchLogOut();
+              if (result) {
+                toLoginPage();
+              }
+            },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: MyColors.primary, // Disabled color #FDBD10
+              textStyle: const TextStyle(color: Colors.white),
+            ),
+            child: const Text("Keluar"),
+          ),
+        ),
+      ),
     );
+  }
+
+  void toLoginPage() async {
+    if (!mounted) return;
+    context.router.replace(const LoginRoute());
   }
 }
