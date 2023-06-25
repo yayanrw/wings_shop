@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:wings_shop/core/theme/my_colors.dart';
 import 'package:wings_shop/core/theme/my_text_theme.dart';
@@ -17,7 +18,8 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final double priceAfterDiscount = product.price - (product.price * product.discount / 100);
+    final double priceAfterDiscount =
+        product.price - (product.price * product.discount / 100);
 
     return InkWell(
       onTap: press,
@@ -48,10 +50,15 @@ class ProductCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: <Widget>[
                       Hero(
-                        tag: 'product_image_$product.id',
-                        child: Image.network(
-                          product.imgUrl,
+                        tag: 'product_image_${product.id}',
+                        child: CachedNetworkImage(
+                          imageUrl: product.imgUrl,
                           fit: BoxFit.cover,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          // Loading indicator
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error), // Error widget
                         ),
                       ),
                       Container(
@@ -115,15 +122,15 @@ class ProductCard extends StatelessWidget {
                         Text(
                           '${product.currency} ${priceAfterDiscount.format()}',
                           style: myTextTheme(
-                              color: MyColors.secondary,
-                              fontWeight: FontWeight.w700)
+                                  color: MyColors.secondary,
+                                  fontWeight: FontWeight.w700)
                               .titleSmall,
                         ),
                         Text(
                           '/ ${product.unit}',
                           style: myTextTheme(
-                              color: MyColors.secondary,
-                              fontWeight: FontWeight.w400)
+                                  color: MyColors.secondary,
+                                  fontWeight: FontWeight.w400)
                               .labelSmall,
                         ),
                       ],

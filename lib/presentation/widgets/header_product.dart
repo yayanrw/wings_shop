@@ -22,7 +22,7 @@ class HeaderProduct extends StatelessWidget {
           fit: StackFit.expand,
           children: <Widget>[
             Hero(
-              tag: 'restaurant_image_${product.id}',
+              tag: 'product_image_${product.id}',
               child: Image.network(
                 product.imgUrl,
                 fit: BoxFit.cover,
