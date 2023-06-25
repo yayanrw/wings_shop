@@ -1,4 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart';
+import 'package:wings_shop/domain/entities/products/product.dart';
 import 'package:wings_shop/presentation/pages/cart/cart_page.dart';
 import 'package:wings_shop/presentation/pages/detail/detail_page.dart';
 import 'package:wings_shop/presentation/pages/home/home_page.dart';
@@ -23,7 +25,7 @@ class AppRouter extends _$AppRouter {
       page: CartRoute.page,
     ),
     AutoRoute(
-      path: '/detail/:id',
+      path: '/detail/:product',
       page: DetailRoute.page,
     ),
   ];

@@ -22,9 +22,13 @@ abstract class _$AppRouter extends RootStackRouter {
       );
     },
     DetailRoute.name: (routeData) {
+      final args = routeData.argsAs<DetailRouteArgs>();
       return AutoRoutePage<dynamic>(
         routeData: routeData,
-        child: const DetailPage(),
+        child: DetailPage(
+          key: args.key,
+          product: args.product,
+        ),
       );
     },
     HomeRoute.name: (routeData) {
@@ -64,16 +68,39 @@ class CartRoute extends PageRouteInfo<void> {
 
 /// generated route for
 /// [DetailPage]
-class DetailRoute extends PageRouteInfo<void> {
-  const DetailRoute({List<PageRouteInfo>? children})
-      : super(
+class DetailRoute extends PageRouteInfo<DetailRouteArgs> {
+  DetailRoute({
+    Key? key,
+    required Product product,
+    List<PageRouteInfo>? children,
+  }) : super(
           DetailRoute.name,
+          args: DetailRouteArgs(
+            key: key,
+            product: product,
+          ),
           initialChildren: children,
         );
 
   static const String name = 'DetailRoute';
 
-  static const PageInfo<void> page = PageInfo<void>(name);
+  static const PageInfo<DetailRouteArgs> page = PageInfo<DetailRouteArgs>(name);
+}
+
+class DetailRouteArgs {
+  const DetailRouteArgs({
+    this.key,
+    required this.product,
+  });
+
+  final Key? key;
+
+  final Product product;
+
+  @override
+  String toString() {
+    return 'DetailRouteArgs{key: $key, product: $product}';
+  }
 }
 
 /// generated route for
