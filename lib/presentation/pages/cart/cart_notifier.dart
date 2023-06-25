@@ -16,12 +16,23 @@ class CartNotifier extends ChangeNotifier {
   RequestState _requestState = RequestState.empty;
   String _message = '';
   List<Cart> _carts = [];
+  int _grandTotal = 0;
 
   RequestState get requestState => _requestState;
 
   String get message => _message;
 
   List<Cart> get carts => _carts;
+
+  int get grandTotal => _grandTotal;
+
+  int calculateGrandTotal() {
+    int total = 0;
+    for (final cart in _carts) {
+      total += cart.price * cart.quantity;
+    }
+    return total;
+  }
 
   Future<void> fetchCarts() async {
     try {
@@ -41,6 +52,7 @@ class CartNotifier extends ChangeNotifier {
         (List<Cart> success) {
           _requestState = RequestState.loaded;
           _carts = success;
+          _grandTotal = calculateGrandTotal();
           notifyListeners();
         },
       );
@@ -54,26 +66,34 @@ class CartNotifier extends ChangeNotifier {
 
   Future<void> updateQuantity(Cart cart, int quantity) async {
     try {
-      _carts = _carts.map((c) {
-        if (c.id == cart.id) {
-          return c.copyWith(quantity: quantity);
-        }
-        return c;
-      }).toList();
-      notifyListeners();
+      if (quantity < 0) {
+        ToastHelper.warning("Quantity tidak boleh < 0");
+      } else {
+        _carts = _carts.map((c) {
+          if (c.id == cart.id) {
+            return c.copyWith(quantity: quantity);
+          }
+          return c;
+        }).toList();
 
-      final Either<Failure, bool> result =
-          await cartRepository.updateCart(id: cart.id, quantity: quantity);
+        _grandTotal = calculateGrandTotal();
+        notifyListeners();
 
-      result.fold(
-        (Failure failure) {
-          ToastHelper.error(failure.message);
-          notifyListeners();
-        },
-        (bool success) {
-          notifyListeners();
-        },
-      );
+        final Either<Failure, bool> result = await cartRepository.updateCart(
+          id: cart.id,
+          quantity: quantity,
+        );
+
+        result.fold(
+          (Failure failure) {
+            ToastHelper.error(failure.message);
+            notifyListeners();
+          },
+          (bool success) {
+            notifyListeners();
+          },
+        );
+      }
     } catch (e) {
       ToastHelper.error('An error occurred: ${e.toString()}');
       notifyListeners();
