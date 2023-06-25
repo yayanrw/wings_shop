@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wings_shop/core/utils/errors/failure.dart';
 import 'package:wings_shop/core/utils/request_state.dart';
+import 'package:wings_shop/core/utils/toast_helper.dart';
 import 'package:wings_shop/domain/entities/products/product.dart';
 import 'package:wings_shop/domain/repositories/product_repository.dart';
 
@@ -34,6 +35,7 @@ class SearchNotifier extends ChangeNotifier {
           (Failure failure) {
         _requestState = RequestState.error;
         _message = failure.message;
+        ToastHelper.error(failure.message);
         notifyListeners();
       },
           (List<Product> success) {
