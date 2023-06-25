@@ -4,7 +4,6 @@ import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wings_shop/core/utils/errors/exceptions.dart';
 import 'package:wings_shop/core/utils/errors/failure.dart';
-import 'package:wings_shop/data/datasources/remote/params/cart_params.dart';
 import 'package:wings_shop/data/datasources/remote/source/cart_data_source.dart';
 import 'package:wings_shop/domain/entities/carts/cart.dart';
 import 'package:wings_shop/domain/repositories/cart_repository.dart';
@@ -16,9 +15,9 @@ class CartRepositoryImpl implements CartRepository {
   CartRepositoryImpl(this.cartDataSource);
 
   @override
-  Future<Either<Failure, bool>> addCart(CartParams cartParams) async {
+  Future<Either<Failure, bool>> addCart(Cart cart) async {
     try {
-      final response = await cartDataSource.addCart(cartParams);
+      final response = await cartDataSource.addCart(cart.toParams());
 
       return Right(response.status);
     } on ServerException {

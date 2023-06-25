@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:wings_shop/data/datasources/remote/dtos/carts/cart_dto.dart';
+import 'package:wings_shop/data/datasources/remote/params/cart_params.dart';
 
 class Cart extends Equatable {
   final int userId;
@@ -46,6 +47,18 @@ extension CartDtoExt on CartDto {
       subTotal: subTotal ?? 0,
       currency: currency ?? "N/A",
       id: id ?? 0,
+    );
+  }
+}
+
+extension CartExt on Cart {
+  CartParams toParams() {
+    return CartParams(
+      productCode: productCode,
+      price: price,
+      quantity: quantity,
+      unit: unit,
+      currency: currency,
     );
   }
 }
