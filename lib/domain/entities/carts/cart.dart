@@ -1,16 +1,18 @@
 import 'package:equatable/equatable.dart';
 import 'package:wings_shop/data/datasources/remote/dtos/carts/cart_dto.dart';
 import 'package:wings_shop/data/datasources/remote/params/cart_params.dart';
+import 'package:wings_shop/domain/entities/products/product.dart';
 
 class Cart extends Equatable {
   final int userId;
   final String productCode;
-  final String price;
-  final String quantity;
+  final int price;
+  final int quantity;
   final String unit;
   final int subTotal;
   final String currency;
   final int id;
+  final Product product;
 
   const Cart({
     required this.userId,
@@ -21,6 +23,7 @@ class Cart extends Equatable {
     required this.subTotal,
     required this.currency,
     required this.id,
+    required this.product,
   });
 
   @override
@@ -33,21 +36,33 @@ class Cart extends Equatable {
         subTotal,
         currency,
         id,
+        product,
       ];
 }
 
 extension CartDtoExt on CartDto {
   Cart toEntity() {
     return Cart(
-      userId: userId ?? 0,
-      productCode: productCode ?? "N/A",
-      price: price ?? "N/A",
-      quantity: quantity ?? "N/A",
-      unit: unit ?? "N/A",
-      subTotal: subTotal ?? 0,
-      currency: currency ?? "N/A",
-      id: id ?? 0,
-    );
+        userId: userId ?? 0,
+        productCode: productCode ?? "N/A",
+        price: price ?? 0,
+        quantity: quantity ?? 0,
+        unit: unit ?? "N/A",
+        subTotal: subTotal ?? 0,
+        currency: currency ?? "N/A",
+        id: id ?? 0,
+        product: product?.toEntity() ??
+            const Product(
+              id: 0,
+              code: "N/A",
+              name: "N/A",
+              imgUrl: "N/A",
+              price: 0,
+              currency: "N/A",
+              discount: 0,
+              dimension: "N/A",
+              unit: "N/A",
+            ));
   }
 }
 
@@ -55,8 +70,8 @@ extension CartExt on Cart {
   CartParams toParams() {
     return CartParams(
       productCode: productCode,
-      price: price,
-      quantity: quantity,
+      price: price.toString(),
+      quantity: quantity.toString(),
       unit: unit,
       currency: currency,
     );

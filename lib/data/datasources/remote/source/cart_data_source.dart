@@ -79,6 +79,7 @@ class CartDataSourceImpl implements CartDataSource {
       Uri.parse('$baseUrl/carts'),
       headers: NetworkHelper.headerWithToken(await getToken.exec()),
     );
+    print(jsonDecode(response.body));
 
     if (response.statusCode == 200) {
       final CartsResponse cartsResponse =
