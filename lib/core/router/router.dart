@@ -25,6 +25,9 @@ class AppRouter extends _$AppRouter {
       page: CartRoute.page,
     ),
     AutoRoute(
+      page: ProfileRoute.page,
+    ),
+    AutoRoute(
       path: '/detail/:product',
       page: DetailRoute.page,
     ),
