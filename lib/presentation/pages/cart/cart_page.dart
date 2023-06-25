@@ -46,59 +46,80 @@ class _CartPageState extends State<CartPage> {
       ),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Consumer<CartNotifier>(
-            builder: (context, data, _) {
-              if (data.requestState == RequestState.loading) {
-                return const Center(child: CircularProgressIndicator());
-              } else if (data.requestState == RequestState.loaded) {
-                if (data.carts.isNotEmpty) {
-                  return Column(
-                    children: [
-                      ListView.builder(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: data.carts.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          final Cart cart = data.carts[index];
-                          return CartCard(
-                            key: Key(cart.id.toString()),
-                            cart: cart,
-                          );
-                        },
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(defaultPadding),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Text("Grant Total",
-                                style: myTextTheme(color: MyColors.textBlack)
-                                    .titleSmall),
-                            Text(
-                              data.grandTotal.format(),
-                              style: myTextTheme(
-                                      color: MyColors.textBlack,
-                                      fontWeight: FontWeight.w700)
-                                  .titleSmall,
-                            ),
-                          ],
+          child: Padding(
+            padding: const EdgeInsets.all(defaultPadding),
+            child: Consumer<CartNotifier>(
+              builder: (context, data, _) {
+                if (data.requestState == RequestState.loading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (data.requestState == RequestState.loaded) {
+                  if (data.carts.isNotEmpty) {
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: data.carts.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            final Cart cart = data.carts[index];
+                            return CartCard(
+                              key: Key(cart.id.toString()),
+                              cart: cart,
+                            );
+                          },
                         ),
-                      )
-                    ],
-                  );
+                        Padding(
+                          padding: const EdgeInsets.all(defaultPadding),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text("Grant Total",
+                                  style: myTextTheme(color: MyColors.textBlack)
+                                      .titleSmall),
+                              Text(
+                                data.grandTotal.format(),
+                                style: myTextTheme(
+                                        color: MyColors.textBlack,
+                                        fontWeight: FontWeight.w700)
+                                    .titleSmall,
+                              ),
+                            ],
+                          ),
+                        )
+                      ],
+                    );
+                  } else {
+                    return const Center(
+                      child: Text("Tidak ada produk didalam keranjang"),
+                    );
+                  }
                 } else {
-                  return const Center(
-                    child: Text("Tidak ada produk didalam keranjang"),
+                  return Center(
+                    key: const Key('error_message'),
+                    child: Text(data.message),
                   );
                 }
-              } else {
-                return Center(
-                  key: const Key('error_message'),
-                  child: Text(data.message),
-                );
-              }
+              },
+            ),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(defaultPadding),
+        child: SizedBox(
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () async {
+              await Provider.of<CartNotifier>(context, listen: false)
+                  .submitTransaction();
             },
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white,
+              backgroundColor: MyColors.primary, // Disabled color #FDBD10
+              textStyle: const TextStyle(color: Colors.white),
+            ),
+            child: const Text("Konfirmasi"),
           ),
         ),
       ),

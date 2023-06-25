@@ -1,17 +1,20 @@
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:injectable/injectable.dart';
 import 'package:wings_shop/core/utils/errors/failure.dart';
 import 'package:wings_shop/core/utils/request_state.dart';
 import 'package:wings_shop/core/utils/toast_helper.dart';
 import 'package:wings_shop/domain/entities/carts/cart.dart';
 import 'package:wings_shop/domain/repositories/cart_repository.dart';
+import 'package:wings_shop/domain/repositories/transaction_repository.dart';
 
 @injectable
 class CartNotifier extends ChangeNotifier {
   final CartRepository cartRepository;
+  final TransactionRepository transactionRepository;
 
-  CartNotifier(this.cartRepository);
+  CartNotifier(this.cartRepository, this.transactionRepository);
 
   RequestState _requestState = RequestState.empty;
   String _message = '';
@@ -40,16 +43,16 @@ class CartNotifier extends ChangeNotifier {
       notifyListeners();
 
       final Either<Failure, List<Cart>> result =
-          await cartRepository.getCarts();
+      await cartRepository.getCarts();
 
       result.fold(
-        (Failure failure) {
+            (Failure failure) {
           _requestState = RequestState.error;
           _message = failure.message;
           ToastHelper.error(failure.message);
           notifyListeners();
         },
-        (List<Cart> success) {
+            (List<Cart> success) {
           _requestState = RequestState.loaded;
           _carts = success;
           _grandTotal = calculateGrandTotal();
@@ -85,16 +88,44 @@ class CartNotifier extends ChangeNotifier {
         );
 
         result.fold(
-          (Failure failure) {
+              (Failure failure) {
             ToastHelper.error(failure.message);
             notifyListeners();
           },
-          (bool success) {
+              (bool success) {
             notifyListeners();
           },
         );
       }
     } catch (e) {
+      ToastHelper.error('An error occurred: ${e.toString()}');
+      notifyListeners();
+    }
+  }
+
+  Future<void> submitTransaction() async {
+    try {
+      EasyLoading.show();
+
+      final Either<Failure, bool> result =
+      await transactionRepository.createTransaction();
+
+      result.fold(
+            (Failure failure) {
+          EasyLoading.dismiss();
+          ToastHelper.error(failure.message);
+          notifyListeners();
+        },
+            (bool success) {
+          EasyLoading.dismiss();
+          ToastHelper.success("Berhasil melakukan konfirmasi pembelian");
+          _carts = [];
+          _grandTotal = 0;
+          notifyListeners();
+        },
+      );
+    } catch (e) {
+      EasyLoading.dismiss();
       ToastHelper.error('An error occurred: ${e.toString()}');
       notifyListeners();
     }

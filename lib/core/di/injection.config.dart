@@ -109,8 +109,10 @@ extension GetItInjectableX on _i1.GetIt {
           gh<_i25.LogIn>(),
           gh<_i6.UserCredentialsRepository>(),
         ));
-    gh.factory<_i28.CartNotifier>(
-        () => _i28.CartNotifier(gh<_i21.CartRepository>()));
+    gh.factory<_i28.CartNotifier>(() => _i28.CartNotifier(
+          gh<_i21.CartRepository>(),
+          gh<_i15.TransactionRepository>(),
+        ));
     return this;
   }
 }
