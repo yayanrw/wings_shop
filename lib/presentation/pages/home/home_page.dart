@@ -22,12 +22,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  Future<void> _refreshData() async {
+    await Provider.of<HomeNotifier>(context, listen: false).fetchProducts();
+  }
+
   @override
   void initState() {
     super.initState();
     Future.microtask(
-      () async => await Provider.of<HomeNotifier>(context, listen: false)
-          .fetchProducts(),
+      () async => _refreshData(),
     );
   }
 
@@ -37,16 +40,20 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              const SizedBox(height: 24),
-              _buildHomeHeader(context),
-              const SizedBox(height: 24),
-              _buildDiscountBanner(context),
-              const SizedBox(height: 24),
-              _buildProducts(context),
-            ],
+        child: RefreshIndicator(
+          onRefresh: _refreshData,
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: Column(
+              children: [
+                const SizedBox(height: 24),
+                _buildHomeHeader(context),
+                const SizedBox(height: 24),
+                _buildDiscountBanner(context),
+                const SizedBox(height: 24),
+                _buildProducts(context),
+              ],
+            ),
           ),
         ),
       ),
