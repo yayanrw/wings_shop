@@ -3,32 +3,21 @@ import 'package:wings_shop/core/theme/my_colors.dart';
 import 'package:wings_shop/core/theme/my_text_theme.dart';
 import 'package:wings_shop/core/utils/extension_helper.dart';
 import 'package:wings_shop/core/utils/size_config.dart';
+import 'package:wings_shop/domain/entities/products/product.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard({
     Key? key,
-    required this.imgUrl,
-    required this.name,
+    required this.product,
     required this.press,
-    required this.id,
-    required this.price,
-    required this.discount,
-    required this.currency,
-    required this.unit,
   }) : super(key: key);
 
-  final int id;
-  final String name;
-  final String currency;
-  final int price;
-  final String unit;
-  final int discount;
-  final String imgUrl;
+  final Product product;
   final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
-    final double priceAfterDiscount = price - (price * discount / 100);
+    final double priceAfterDiscount = product.price - (product.price * product.discount / 100);
 
     return InkWell(
       onTap: press,
@@ -59,9 +48,9 @@ class ProductCard extends StatelessWidget {
                     fit: StackFit.expand,
                     children: <Widget>[
                       Hero(
-                        tag: 'product_image_$id',
+                        tag: 'product_image_$product.id',
                         child: Image.network(
-                          imgUrl,
+                          product.imgUrl,
                           fit: BoxFit.cover,
                         ),
                       ),
@@ -87,7 +76,7 @@ class ProductCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
                     Text(
-                      name,
+                      product.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                       style: myTextTheme(
@@ -96,13 +85,13 @@ class ProductCard extends StatelessWidget {
                           .titleMedium,
                     ),
                     const SizedBox(height: 4),
-                    if (discount != 0)
+                    if (product.discount != 0)
                       Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
-                            '$currency ${price.format()}',
+                            '${product.currency} ${product.price.format()}',
                             style: const TextStyle(
                                 decoration: TextDecoration.lineThrough,
                                 fontSize: 12),
@@ -111,7 +100,7 @@ class ProductCard extends StatelessWidget {
                             width: 8,
                           ),
                           Text(
-                            '$discount%',
+                            '${product.discount}%',
                             style: myTextTheme(
                                     color: MyColors.secondary,
                                     fontWeight: FontWeight.w700)
@@ -124,14 +113,14 @@ class ProductCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
                         Text(
-                          '$currency ${priceAfterDiscount.format()}',
+                          '${product.currency} ${priceAfterDiscount.format()}',
                           style: myTextTheme(
                               color: MyColors.secondary,
                               fontWeight: FontWeight.w700)
                               .titleSmall,
                         ),
                         Text(
-                          '/ $unit',
+                          '/ ${product.unit}',
                           style: myTextTheme(
                               color: MyColors.secondary,
                               fontWeight: FontWeight.w400)

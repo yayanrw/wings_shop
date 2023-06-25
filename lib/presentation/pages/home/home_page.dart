@@ -184,16 +184,9 @@ class _HomePageState extends State<HomePage> {
                     final Product product = data.products[index];
                     return ProductCard(
                       key: Key(product.id.toString()),
-                      id: product.id,
-                      name: product.name,
-                      imgUrl: product.imgUrl,
-                      currency: product.currency,
-                      price: product.price,
-                      discount: product.discount,
-                      unit: product.unit,
+                      product: product,
                       press: () {
-                        // context.router
-                        //     .push(RestaurantDetailRoute(id: restaurant.id));
+                        context.router.push(DetailRoute(product: product));
                       },
                     );
                   },
